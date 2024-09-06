@@ -1,0 +1,89 @@
+.App {
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+}
+
+.selectContainer {
+  padding-right: 110pt;
+}
+
+.pdfContainer {
+  width: 80%;
+  overflow: auto;
+  z-index: 0;
+}
+
+.textContainer {
+  width: 30%;
+  padding: 10px;
+  background-color: #f4f4f4;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.textarea {
+  width: 100%;
+  height: 50px; 
+  padding: 5px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: none;
+  margin-bottom: 10px; /* Space between textarea and buttons */
+}
+
+.page {
+  height: 680px;
+  border: none;
+}
+
+/* New styles for selected text items */
+.selectedTextItem {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+/* Style for the selected text itself */
+.selectedTextItem span {
+  flex-grow: 1;
+  margin-right: 10px;
+}
+
+/* Styles for the Action and Delete buttons container */
+.buttonsContainer {
+  display: flex;
+  gap: 10px; /* Space between buttons */
+}
+
+/* Styles for the Action button */
+.actionButton {
+  padding: 5px 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  flex: 1; /* Make button take available space equally */
+}
+
+.actionButton:hover {
+  background-color: #0056b3;
+}
+
+/* Styles for the Delete button */
+.deleteButton {
+  padding: 5px 10px;
+  background-color: red;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  flex: 1; /* Make button take available space equally */
+}
+
+.deleteButton:hover {
+  background-color: darkred;
+}
