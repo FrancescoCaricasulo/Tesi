@@ -13,7 +13,7 @@ function App() {
   const [user, setUser] = useState(null);
   const [text, setText] = useState(null);
   const [isRegistering, setIsRegistering] = useState(false);
-  const updateText = (x)=>{setText(x)};
+  
  
   // Login handler
   const handleLogin = (credentials) => {
@@ -23,7 +23,7 @@ function App() {
         
         // Set session storage
         console.log(response.data.user);
-        sessionStorage.setItem('text', JSON.stringify(response.data.text));
+        sessionStorage.setItem('text', JSON.stringify([]));
         sessionStorage.setItem('user', JSON.stringify(response.data.user));
         setUser(JSON.parse(sessionStorage.user));
         setText(JSON.parse(sessionStorage.text));
@@ -61,7 +61,11 @@ function App() {
         <div>
         
         <button onClick={handleLogout}>Logout</button>
-        <PDFViewer user={sessionStorage.user ? JSON.parse(sessionStorage.user) : user} text={sessionStorage.text ? JSON.parse(sessionStorage.text) : text} updateText={updateText}/>;
+        <br></br>
+        <label> Benvenuto {JSON.parse(sessionStorage.user).username}</label>
+        {/* Al login oppure quando si ricarica la pagina faccio il controllo se esiste in memoria o se la lunghezza di ciò che è contenuto in memoria  */}
+        <PDFViewer user={sessionStorage.user ? JSON.parse(sessionStorage.user) : user} text={sessionStorage.text ? JSON.parse(sessionStorage.text) : text}/>
+        
         </div>
       ) : (
         <div>

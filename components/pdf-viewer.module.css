@@ -1,4 +1,5 @@
 .App {
+  margin-top: 25px;
   display: flex;
   flex-direction: row;
   height: 100vh;
@@ -73,6 +74,47 @@
   background-color: #0056b3;
 }
 
+.saveTextButton {
+  padding: 5px 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.saveTextButton:hover {
+  background-color: #0056b3;
+}
+
+/* Styles for the Lemma button */
+.saveButton {
+  padding: 5px 10px;
+  background-color: rgb(0, 211, 0);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  flex: 1; /* Make button take available space equally */
+}
+
+.saveButton:hover {
+  background-color: darkgreen;
+}
+
+.saveLemmaButton{
+  padding: 5px 10px;
+  background-color: rgb(0, 211, 0);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.saveLemmaButton:hover {
+  background-color: darkgreen;
+}
+
 /* Styles for the Delete button */
 .deleteButton {
   padding: 5px 10px;
@@ -86,4 +128,29 @@
 
 .deleteButton:hover {
   background-color: darkred;
+}
+
+
+/*Styles for the Upload Pdf Section*/
+.uploadContainer {
+  padding-left: 25%;
+  padding-right: 25%;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.uploadSection,
+.listSection {
+  flex: 1;
+}
+
+.uploadSection {
+  display: flex;
+  flex-direction: column;
+}
+
+.listSection {
+  display: flex;
+  flex-direction: column;
 }
