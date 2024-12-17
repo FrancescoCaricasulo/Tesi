@@ -333,16 +333,14 @@ const handleContextClick = async (pdfId, text) => {
   }
 
   const saveAnnotations = async (pdfId) => {
-    if(selectedTextList == text){
-      console.log("stessa lunghezza, nessun cambiamento");
-      return null;
+
+    const hasNonNumericId = selectedTextList.some(item => isNaN(item.id));
+    if (!hasNonNumericId) {
+        alert("Non sono state salvate nuove parole.");
+        return null;
     }else{
       //Find items in selectedTextList that do not have the same text key in text
-      const uniqueInselectedTextList = selectedTextList.filter(item1 => {
-        return !text.some(item2 => item1.text === item2.text);
-      });
-
-      console.log(uniqueInselectedTextList);
+      const uniqueInselectedTextList = selectedTextList.filter(item => isNaN(item.id));
       try {
         if(uniqueInselectedTextList.length > 0){
           //Salvo il testo nel db
@@ -352,7 +350,6 @@ const handleContextClick = async (pdfId, text) => {
             annotations: uniqueInselectedTextList
           });
         }
-
         updateFront(pdfId);
         alert('Annotations saved successfully');
       } catch (error) {
