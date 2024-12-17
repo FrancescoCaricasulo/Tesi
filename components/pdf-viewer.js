@@ -25,6 +25,7 @@ export default function PDFViewer({user, text}) {
   useEffect(() => {
     if (file) {
       extractSentencesFromPDF(file);
+      setWordContext('')
     }
   }, [file]);
 
