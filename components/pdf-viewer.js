@@ -292,9 +292,9 @@ const handleContextClick = async (pdfId, text) => {
       isTextPresent = uniqueInselectedTextList.some(item => item.text === textDel);
     }
 
-    if(!isTextPresent){
+    if(isTextPresent&& !isNaN(id)){
       try {
-        const response = axios.delete(`http://localhost:5000/delete-text${id}`);
+        const response = axios.delete(`http://localhost:5000/delete-text/${id}`);
       } catch (error) {
         console.error('Error deleting text:', error);
         alert('Error deleting text');
