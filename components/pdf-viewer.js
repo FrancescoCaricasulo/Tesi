@@ -26,7 +26,7 @@ export default function PDFViewer({user, text}) {
     if (file) {
       extractSentencesFromPDF(file);
     }
-  }, []);
+  }, [file]);
 
   //Effetti e funzione per la gestione del pdf selezionato
   useEffect(() => {
@@ -146,18 +146,14 @@ export default function PDFViewer({user, text}) {
     return uuidRegex.test(id_string);
   }
 
-  //Funzione per la geestione dell'aggiunta ai lemmi
+  //Funzione per la gestione dell'aggiunta ai lemmi
   const handleLemmaClick = async(pdfId, text, comment) => {
     // Filter sentences containing the exact highlighted word
     const relevantSentences = allSentences.filter(sentence => {
       const regex = new RegExp(`\\b${text}\\b`, 'i');
       return regex.test(sentence.sentence);
     });
-    console.log(allSentences);
-    console.log(relevantSentences,text)
-    console.log([allSentences.indexOf(relevantSentences[0])]);
     const row = allSentences[allSentences.indexOf(relevantSentences[0])].lineNumber;
-    console.log(text, row);
     
     try{
       //aggiunta parola a lemmi
@@ -210,7 +206,6 @@ const handleContextClick = async (pdfId, text) => {
     lineNumbers: lineNumber
   }));
 
-  console.log(uniqueSentences);
 
   const newWindow = window.open("", "_blank");
   if (!newWindow) {
@@ -312,8 +307,6 @@ const handleContextClick = async (pdfId, text) => {
   };
   
   const handleSaveComment = async(id, comment) => {
-    console.log(id);
-    console.log(typeof(id));
     if(typeof(id) == Number){
       alert("The word isn't saved yet, please save it before add any comment");
     }else{
@@ -324,7 +317,6 @@ const handleContextClick = async (pdfId, text) => {
             comment: comment          
           });
           alert('Annotations saved successfully');
-          console.log(id, typeof(id));
       }catch (error) {
         console.error('Error saving annotations:', error);
         alert('Error saving annotations');
