@@ -15,7 +15,7 @@ export default function PDFViewer({user, text}) {
   const [selectedTextList, setSelectedTextList] = useState(text);
   const [allSentences, setAllSentences] = useState([]);
   const [activeWordId, setActiveWordId] = useState(null); //Per selezionare l'id delle parole interagite
-
+  const [wordContext,setWordContext] = useState('')
   //Gestione per l'upload dei pdf
   const [pdfs, setPdfs] = useState([]);
   const [selectedFile, setSelectedFile] = useState(null);
@@ -226,8 +226,9 @@ const handleContextClick = async (pdfId, text) => {
       // Check if the word (case-insensitive) is in the lemmas array
       const isLemma = lemmas.some(lemma => lemma.toLowerCase() === word.toLowerCase());
       if (isLemma) {
+        setWordContext(word)
         // If the word is a lemma, make it clickable
-        return `<span style="background-color: yellow; cursor: pointer;" onclick="window.opener.handleContextClick('${pdfId}, ${word}')">${word}</span>`;
+        return `<span style="background-color: yellow; cursor: pointer;" onclick="window.opener.handleContextClick('${pdfId}, ${wordContext}')">${wordContext}</span>`;
       }
       return word;
     }).join(' ');
@@ -275,7 +276,7 @@ const handleContextClick = async (pdfId, text) => {
   `;
 
   // Write the HTML content to the new window
-  window.handleContextClick = () => handleContextClick(pdfId, item.text);
+  window.handleContextClick = () => handleContextClick(pdfId, wordContext);
   newWindow.document.open();
   newWindow.document.write(htmlContent);
   newWindow.document.close();
