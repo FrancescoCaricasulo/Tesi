@@ -521,6 +521,7 @@ const handleContextClick = async (pdfId, text) => {
         alert('Error uploading PDF');
       });
       setFile(selectedFile);
+      extractSentencesFromPDF(selectedFile)
   };
 
   
