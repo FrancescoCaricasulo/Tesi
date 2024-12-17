@@ -26,7 +26,7 @@ export default function PDFViewer({user, text}) {
     if (file) {
       extractSentencesFromPDF(file);
     }
-  }, []);
+  }, [file]);
 
   //Effetti e funzione per la gestione del pdf selezionato
   useEffect(() => {
@@ -57,6 +57,7 @@ export default function PDFViewer({user, text}) {
         const pdfBlob = new Blob([Uint8Array.from(atob(pdfData), c => c.charCodeAt(0))], { type: 'application/pdf' });
         const pdfUrl = URL.createObjectURL(pdfBlob);
         setFile(pdfUrl);
+        // extractSentencesFromPDF(pdfUrl)
       })
       .catch(error => {
         console.error('Error fetching selected PDF:', error);
@@ -521,14 +522,14 @@ const handleContextClick = async (pdfId, text) => {
     axios.post('http://localhost:5000/upload-pdf', formData)
       .then(response => {
         alert('PDF uploaded successfully');
-        setPdfId(response.data.insertId);
-
+        handleSelectPdf(response.data.insertId)
       })
       .catch(error => {
         console.error('Error uploading PDF:', error);
         alert('Error uploading PDF');
       });
-      setFile(selectedFile);
+      
+      
   };
 
   
