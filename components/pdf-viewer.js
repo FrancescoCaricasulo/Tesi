@@ -15,17 +15,17 @@ export default function PDFViewer({user, text}) {
   const [selectedTextList, setSelectedTextList] = useState(text);
   const [allSentences, setAllSentences] = useState([]);
   const [activeWordId, setActiveWordId] = useState(null); //Per selezionare l'id delle parole interagite
-  const [wordContext,setWordContext] = useState('')
+
   //Gestione per l'upload dei pdf
   const [pdfs, setPdfs] = useState([]);
   const [selectedFile, setSelectedFile] = useState(null);
   const [pdfId, setPdfId] = useState(null);
+
   
   
   useEffect(() => {
     if (file) {
       extractSentencesFromPDF(file);
-      setWordContext('')
     }
   }, [file]);
 
@@ -85,7 +85,7 @@ export default function PDFViewer({user, text}) {
   
       // Process buffer to extract sentences
       // Split by sentence delimiters, including those spanning across pages
-      let pageSentences = buffer.match(/[^.!?;\n]+[.!?;\n]+/g) || [];
+      let pageSentences = buffer.match(/[^.;\n]+[.!?;\n]+/g) || [];
   
       // Handle sentences that may be interrupted at the end of a page
       if (pageSentences.length > 0) {
@@ -182,9 +182,8 @@ const handleContextClick = async (pdfId, text) => {
   let lemmas = [];
   try {
     const response = await axios.post("http://localhost:5000/visualize-lemmas", {pdfId: pdfId})
-
-    console.log(response.data.result);
     lemmas = response.data.result.map(lemma => lemma.testo); // Adjust based on your response structure
+
   } catch (error) {
     console.error("Error fetching lemmas:", error);
     alert("Error fetching lemmas, please try again.");
@@ -212,7 +211,6 @@ const handleContextClick = async (pdfId, text) => {
     lineNumbers: lineNumber
   }));
 
-  console.log(uniqueSentences);
 
   const newWindow = window.open("", "_blank");
   if (!newWindow) {
@@ -226,12 +224,14 @@ const handleContextClick = async (pdfId, text) => {
     return words.map(word => {
       // Check if the word (case-insensitive) is in the lemmas array
       const isLemma = lemmas.some(lemma => lemma.toLowerCase() === word.toLowerCase());
+      
       if (isLemma) {
-        setWordContext(word)
+        
         // If the word is a lemma, make it clickable
-        return `<span style="background-color: yellow; cursor: pointer;" onclick="window.opener.handleContextClick('${pdfId}, ${wordContext}')">${wordContext}</span>`;
-      }
-      return word;
+        return `<span style="background-color: yellow" >
+                    ${word}
+                </span>`;
+      }else return word;
     }).join(' ');
   };
 
@@ -257,18 +257,9 @@ const handleContextClick = async (pdfId, text) => {
           border-radius: 5px;
         }
       </style>
-      <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> <!-- Include Axios -->
-      <script>
-        // Function to handle clicking on a lemma
-        async function handleContextClick(pdfId,lemma) {
-          // Call the main handleContextClick function from the parent window
-          window.opener.handleContextClick(pdfId,lemma);
-          window.close(); // Close the current popup window
-        }
-      </script>
     </head>
     <body>
-      <h1>Frasi di Contesto</h1>
+      <h1>Frasi di Contesto per "${text}"</h1>
       <ul>
         ${uniqueSentences.map(sentence => `<li>${highlightLemmas(sentence.sentence)} (riga: ${sentence.lineNumbers})</li>`).join('')}
       </ul>
@@ -277,7 +268,6 @@ const handleContextClick = async (pdfId, text) => {
   `;
 
   // Write the HTML content to the new window
-  window.handleContextClick = () => handleContextClick(pdfId, wordContext);
   newWindow.document.open();
   newWindow.document.write(htmlContent);
   newWindow.document.close();
