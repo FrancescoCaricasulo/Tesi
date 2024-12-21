@@ -382,7 +382,7 @@ const handleContextClick = async (pdfId, text) => {
         <!DOCTYPE html>
         <html>
         <head>
-          <title>Visualized Lemmas</title>
+          <title>Lemmi</title>
           <style>
             body {
               font-family: Arial, sans-serif;
@@ -411,13 +411,13 @@ const handleContextClick = async (pdfId, text) => {
           <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
         </head>
         <body>
-          <h1>Visualized Lemmas</h1>
+          <h1>Lemmi</h1>
           <table>
             <thead>
               <tr>
-                <th>Text</th>
-                <th>Line Number</th>
-                <th>Action</th>
+                <th>Testo</th>
+                <th>Riga Apparizione</th>
+                <th>Azioni</th>
               </tr>
             </thead>
             <tbody id="lemmaTableBody">
@@ -428,7 +428,7 @@ const handleContextClick = async (pdfId, text) => {
                   <td>
                     <button
                       class="deleteButton"
-                      onclick="handleDeleteLemmaClick('${lemma.id_lemma}')">
+                      onclick="handleDeleteLemmaClick('${lemma.id_lemma}', this)">
                       Elimina
                     </button>
                   </td>
@@ -437,37 +437,14 @@ const handleContextClick = async (pdfId, text) => {
             </tbody>
           </table>
           <script>
-            function handleDeleteLemmaClick(id) {
+            function handleDeleteLemmaClick(id, button) {
+            const lemmaRow = button.parentNode.parentNode;
               axios.delete(\`http://localhost:5000/delete-lemma/\${id}\`)
                 .then(response => {
                   if (response.data.success) {
                     alert('Lemma deleted successfully');
+                    lemmaRow.remove();
                     
-                    // Fetch the updated list of lemmas
-                    axios.post("http://localhost:5000/visualize-lemmas")
-                      .then(updatedResponse => {
-                        const updatedLemmas = updatedResponse.data.result;
-                        const lemmaTableBody = document.getElementById('lemmaTableBody');
-                        lemmaTableBody.innerHTML = ''; // Clear existing rows
-
-                        // Populate the table with updated lemmas
-                        updatedLemmas.forEach(lemma => {
-                          const row = document.createElement('tr');
-                          row.innerHTML = \`
-                            <td>\${lemma.testo}</td>
-                            <td>\${lemma.commento}</td>
-                            <td>\${lemma.riga_apparizione}</td>
-                            <td>
-                              <button class="deleteButton" onclick="handleDeleteLemmaClick('\${lemma.id_lemma}')">Elimina</button>
-                            </td>
-                          \`;
-                          lemmaTableBody.appendChild(row);
-                        });
-                      })
-                      .catch(err => {
-                        console.error('Error fetching updated lemmas:', err);
-                        alert('Error fetching updated lemmas.');
-                      });
                   } else {
                     alert('Error deleting lemma');
                   }
