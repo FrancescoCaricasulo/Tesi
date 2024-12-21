@@ -4,6 +4,7 @@ import Register from "./register";
 import axios from 'axios';
 import dynamic from "next/dynamic";
 import styles from './App.module.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const PDFViewer = dynamic(() => import("./pdf-viewer"), {
   ssr: false
@@ -59,10 +60,10 @@ function App() {
     <div className={styles.app}>
       {user ||  sessionStorage.user ? (
         <div>
-        
-        <button onClick={handleLogout}>Logout</button>
-        <br></br>
-        <label> Benvenuto {JSON.parse(sessionStorage.user).username}</label>
+        <div class="logout-container d-flex justify-content-end">
+          <label class=" m-2 pt-2"> Benvenuto {JSON.parse(sessionStorage.user).username}</label>
+          <button class="btn btn-warning m-2" onClick={handleLogout}>Logout</button>          
+        </div>
         {/* Al login oppure quando si ricarica la pagina faccio il controllo se esiste in memoria o se la lunghezza di ciò che è contenuto in memoria  */}
         <PDFViewer user={sessionStorage.user ? JSON.parse(sessionStorage.user) : user} text={sessionStorage.text ? JSON.parse(sessionStorage.text) : text}/>
         
@@ -82,7 +83,7 @@ function App() {
               <br />
               <p className={styles.control}>
                 Hai già un account?{" "}
-                <button onClick={() => setIsRegistering(false)}>Accedi</button>
+                <button className="btn btn-secondary" onClick={() => setIsRegistering(false)}>Accedi</button>
               </p>
             </>
           ) : (
@@ -98,7 +99,7 @@ function App() {
               <br />
               <p className={styles.control}>
                 Non hai un account?{" "}
-                <button onClick={() => setIsRegistering(true)}>Registrati</button>
+                <button className="btn btn-secondary" onClick={() => setIsRegistering(true)}>Registrati</button>
               </p>
             </>
           )}

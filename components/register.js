@@ -21,38 +21,41 @@ const Register = ({ onRegister }) => {
   };
 
   return (
-    <form className={styles.form} onSubmit={handleSubmit}>
-      <div className={styles.form_control_email}>
-        <label>Email:</label>
+    <form className="d-flex align-items-center flex-column mt-3" onSubmit={handleSubmit}>
+      <div className="mb-3 d-flex flex-column" style={{ width: '40%'}}>
+        <label className="form-label">Email:</label>
         <input
           type="email"
+          className="form-control"
           name="email"
           value={input.email}
           onChange={handleInput}
           placeholder="Inserisci l'Email"
         />
       </div>
-      <div className={styles.form_control_password}>
-        <label>Password:</label>
+      <div className="mb-3 d-flex flex-column" style={{ width: '40%'}}>
+        <label className="form-label">Password:</label>
         <input
           type="password"
+          className="form-control"
           name="password"
           value={input.password}
           onChange={handleInput}
           placeholder="inserisci la password"
         />
       </div>
-      <div className={styles.form_control_password}>
-        <label>Confirm Password:</label>
+      <div className="mb-3 d-flex flex-column" style={{ width: '40%'}}>
+        <label className="form-label">Confirm Password:</label>
         <input
           type="password"
+          className="form-control"
           name="confirmPassword"
           value={input.confirmPassword}
           onChange={handleInput}
           placeholder="Conferma la password"
         />
       </div>
-      <button type="submit">Registrati</button>
+      <button type="submit" className="btn btn-primary">Registrati</button>
     </form>
   );
 };

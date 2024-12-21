@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from 'uuid'; // Import the UUID function
 import workerSrc from "../pdf-worker";
 import styles from './pdf-viewer.module.css';
 import axios from 'axios';
-
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 pdfjs.GlobalWorkerOptions.workerSrc = workerSrc;
@@ -511,120 +511,131 @@ const handleContextClick = async (pdfId, text) => {
     <div>
       {file === null ? (
         // Sezione er la gestione del caricamento di un pdf
-        <div className={styles.uploadContainer}>
-          <div className={styles.uploadSection}>
-            <h1>Carica un PDF</h1>
-            
-            <div>
-              <input type="file" onChange={handleFileChange}/>
-              <button onClick={handleUpload}>Upload PDF</button>
+        <div className="container mt-5">
+          <div className="row">
+            <div className="col-md-6">
+              <div className="card">
+                <div className="card-body">
+                  <h2 className="card-title mb-4">Carica un PDF</h2>
+                  <div className="mb-3">
+                    <input type="file" className="form-control" onChange={handleFileChange} />
+                  </div>
+                  <button className="btn btn-primary" onClick={handleUpload}>Upload PDF</button>
+                </div>
+              </div>
             </div>
-          </div>
 
-          <div className={styles.listSection}>
-          <h1>PDF Disponibili</h1>
-            <ul>
-              {pdfs.map(pdf => (
-                <li key={pdf.id}>
-                  {pdf.nome +"   "}
-                  <button onClick={() =>{handleSelectPdf(pdf.id), updateFront(pdf.id)}}>
-                      Select
-                  </button>
-                </li>
-              ))}
-            </ul>
+            <div className="col-md-6">
+              <div className="card">
+                <div className="card-body">
+                  <h2 className="card-title mb-4">PDF Disponibili</h2>
+                  <ul className="list-group">
+                    {pdfs.map(pdf => (
+                      <li key={pdf.id} className="list-group-item d-flex justify-content-between align-items-center">
+                        {pdf.nome}
+                        <button 
+                          className="btn btn-outline-primary btn-sm" 
+                          onClick={() => {handleSelectPdf(pdf.id); updateFront(pdf.id);}}
+                        >
+                          Select
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       ) : ( 
         //Sezione per la gestione della visualizzazione del pdf
-      <div className={styles.App}>
-        <div>
-          <button onClick={() =>{ setFile(null), setSelectedTextList([])}}> Cambia PDf </button>
+        <div className="container-fluid mt-3">
+        <div className="row">
+          <div className="col-12 mb-3">
+            <button className="btn btn-secondary" onClick={() => { setFile(null); setSelectedTextList([]); }}>
+              Cambia PDF
+            </button>
+          </div>
         </div>
-        <div className={styles.selectContainer}></div>
-        <div className={styles.pdfContainer} onMouseUp={handleMouseUp}>
-          <Document file={file} onLoadSuccess={onDocumentLoadSuccess}>
-            {Array.from(new Array(numPages), (el, index) => (
-              <Page
-                className={styles.page}
-                key={`page_${index + 1}`}
-                pageNumber={index + 1}
-                renderMode="none"
-                renderAnnotationLayer={false}
-                renderTextLayer={true}
-              />
-            ))}
-          </Document>
-        </div>
-      <div className={styles.textContainer}>
-        <h3>Testo Selezionato</h3>
-          {selectedTextList.map((item) => (
-            <div
-              key={item.id}
-              className={styles.selectedTextItem}
-            >
-              <span
-                onClick={() => toggleActiveWord(item.id)}
-                className={styles.interactiveWord}
-                style={{ cursor: "pointer" }}
-              >
-                {item.text} 
-              </span>
-              {/* Conditionally render buttons only for the selected word */}
-
-              {activeWordId === item.id && (
-                <div>
-                  <textarea
-                    value={item.comment}
-                    onChange={(e) => handleCommentChange(item.id, e.target.value)}
-                    placeholder="Aggiungi un commento..."
-                    className={styles.textarea}
+  
+        <div className="row">
+          <div className="col-md-8 pl-5">
+            <div className="pdf-container text-center" style={{ height: '600px', overflowY: 'auto' }} onMouseUp={handleMouseUp}>
+              <Document file={file} onLoadSuccess={onDocumentLoadSuccess}>
+                {Array.from(new Array(numPages), (el, index) => (
+                  <Page
+                    key={`page_${index + 1}`}
+                    pageNumber={index + 1}
+                    renderMode="none"
+                    renderAnnotationLayer={false}
+                    renderTextLayer={true}
+                    className="mb-3 d-flex justify-content-center"
                   />
-                </div>
-              )}
-            
-              {activeWordId === item.id && (
-                
-                <div className={styles.buttonsContainer}>
-                  
-                  <button
-                    className={styles.saveButton}
-                    onClick={() => handleSaveComment(item.id, item.comment)}
-                  >
-                    Salva Commento
-                  </button>
-                  <button
-                    className={styles.saveButton}
-                    onClick={() =>{handleLemmaClick(pdfId, item.text, item.comment)}}
-                  >
-                    Aggiungi ai Lemmi
-                  </button>
-                  
-                  <button
-                    className={styles.deleteButton}
-                    onClick={() => handleDeleteClick(item.id, item.text)}
-                  >
-                    Elimina
-                  </button>
-                  </div>
-                )}
-                <br></br>
-                {activeWordId === item.id && (
-                  <div className={styles.buttonsContainer}>
-                    <button
-                    className={styles.actionButton}
-                    onClick={() => handleContextClick(pdfId, item.text)}
-                  >
-                    Visualizza Contesto
-                  </button>
-                  
-                </div>
-              )}
+                ))}
+              </Document>
             </div>
-          ))}
-        <button className={styles.saveTextButton} onClick={() => saveAnnotations(pdfId)}>Salva Annotazioni</button>
-        <button className={styles.saveLemmaButton} onClick={() => visualizeLemmas(pdfId)}>Visualizza Lemmi</button>
-      </div>
+          </div>
+  
+          <div className="col-md-4">
+            <div className="card">
+              <div className="card-body">
+                <h3 className="card-title mb-3">Testo Selezionato</h3>
+                {selectedTextList.map((item) => (
+                  <div key={item.id} className="mb-3 p-2 border rounded">
+                    <span
+                      onClick={() => toggleActiveWord(item.id)}
+                      className="d-inline-block mb-2"
+                      style={{ cursor: "pointer" }}
+                    >
+                      {item.text}
+                    </span>
+  
+                    {activeWordId === item.id && (
+                      <div className="mt-2">
+                        <textarea
+                          value={item.comment}
+                          onChange={(e) => handleCommentChange(item.id, e.target.value)}
+                          placeholder="Aggiungi un commento..."
+                          className="form-control mb-2"
+                        />
+                        <div className="d-flex flex-wrap gap-2 mb-2 justify-content-center">
+                          <button
+                            className="btn btn-primary btn-sm"
+                            onClick={() => handleSaveComment(item.id, item.comment)}
+                          >
+                            Salva Commento
+                          </button>
+                          <button
+                            className="btn btn-primary btn-sm"
+                            onClick={() => handleLemmaClick(pdfId, item.text, item.comment)}
+                          >
+                            Aggiungi ai Lemmi
+                          </button>
+                          <button
+                            className="btn btn-danger btn-sm"
+                            onClick={() => handleDeleteClick(item.id, item.text)}
+                          >
+                            Elimina
+                          </button>
+                          <button
+                            className="btn btn-success btn-sm "
+                            onClick={() => handleContextClick(pdfId, item.text)}
+                          >
+                            Visualizza Contesto
+                          </button>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                ))}
+                <div className="d-flex gap-2 mt-3">
+                  <button className="btn btn-primary" onClick={() => saveAnnotations(pdfId)}>Salva Annotazioni</button>
+                  <button className="btn btn-success" onClick={() => visualizeLemmas(pdfId)}>Visualizza Lemmi</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     )}
 

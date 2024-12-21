@@ -19,28 +19,40 @@ const Login = ({ onLogin }) => {
   };
 
   return (
-    <form className={styles.form} onSubmit={handleSubmit} >
-      <div className={styles.form_control_email}>
-        <label>Email:</label>
+    <form className="needs-validation d-flex align-items-center flex-column mt-3"  onSubmit={handleSubmit} noValidate>
+      <div className="mb-3 d-flex flex-column" style={{ width: '40%'}}>
+        <label htmlFor="email" className="form-label">Email:</label>
         <input
           type="email"
+          className="form-control"
+          id="email"
           name="email"
           value={input.email}
           onChange={handleInput}
           placeholder="Inserisci l'Email"
+          required
         />
+        <div className="invalid-feedback">
+          Per favore, inserisci un indirizzo email valido.
+        </div>
       </div>
-      <div className={styles.form_control_password}>
-        <label>Password:</label>
+      <div className="mb-3 d-flex flex-column" style={{ width: '40%'}}>
+        <label htmlFor="password" className="form-label">Password:</label>
         <input
           type="password"
+          className="form-control"
+          id="password"
           name="password"
           value={input.password}
           onChange={handleInput}
-          placeholder="inserisci la password"
+          placeholder="Inserisci la password"
+          required
         />
+        <div className="invalid-feedback">
+          Per favore, inserisci la password.
+        </div>
       </div>
-      <button type="submit">Accedi</button>
+      <button type="submit" className="btn btn-primary">Accedi</button>
     </form>
   );
 };
