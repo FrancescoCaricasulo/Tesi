@@ -560,7 +560,7 @@ const handleContextClick = async (pdfId, text) => {
   
         <div className="row">
           <div className="col-md-8 pl-5">
-            <div className="pdf-container text-center" style={{ height: '600px', overflowY: 'auto' }} onMouseUp={handleMouseUp}>
+            <div className="pdf-container" style={{ height: '600px', overflowY: 'auto' }} onMouseUp={handleMouseUp}>
               <Document file={file} onLoadSuccess={onDocumentLoadSuccess}>
                 {Array.from(new Array(numPages), (el, index) => (
                   <Page

@@ -72,7 +72,9 @@ function App() {
         <div>
           {isRegistering ? (
             <>
-              <label className={styles.text1}> Benvenuto su DocUni,<br /></label>
+              <label className={styles.text1}> Benvenuto su Volpin
+                <img src='/volpin.png' alt="logo"></img>,<br />
+              </label>
               <label className={styles.text2}>uno strumento per lo studio di PDF.<br /></label>
               <br />
               <label className={styles.text3}> Registrati per continuare <br /></label>
@@ -88,7 +90,10 @@ function App() {
             </>
           ) : (
             <>
-              <label className={styles.text1}> Benvenuto su DocUni,<br /></label>
+              <label className={styles.text1}> 
+                Benvenuto su Volpin
+                <img src='/volpin.png' alt="logo"></img>,<br />
+                </label>
               <label className={styles.text2}>uno strumento per lo studio di PDF.<br /></label>
               <br />
               <label className={styles.text3}> Accedi per continuare <br /></label>
